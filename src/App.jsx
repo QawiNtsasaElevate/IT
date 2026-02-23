@@ -11,6 +11,23 @@ export default function App() {
   const [selectedAssetId, setSelectedAssetId] = useState(null);
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
+  const [user, setUser] = useState(null);
+
+  // Fetch user info from Azure Static Web Apps
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch('/.auth/me');
+        const data = await response.json();
+        if (data.clientPrincipal) {
+          setUser(data.clientPrincipal);
+        }
+      } catch (err) {
+        console.log('Not authenticated or auth endpoint unavailable');
+      }
+    };
+    getUser();
+  }, []);
 
   useEffect(() => {
     const getAssets = async () => {
@@ -152,7 +169,15 @@ export default function App() {
           📊 Analytics
         </Link>
         <h1 style={{ margin: '0', fontSize: '48px', color: '#000000', fontWeight: 'bold', flex: 1, textAlign: 'center', fontFamily: 'Archivo Black, sans-serif' }}>Elevate IT: INVENTORY</h1>
-        <img src="/icon.png" alt="Elevate IT Icon" style={{ height: '60px', width: 'auto' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          {user && (
+            <div style={{ textAlign: 'right', fontSize: '13px' }}>
+              <div style={{ fontWeight: '600', color: '#000000' }}>{user.userDetails}</div>
+              <a href="/.auth/logout" style={{ color: '#FF5722', textDecoration: 'none', fontSize: '12px', fontWeight: '600' }}>Logout</a>
+            </div>
+          )}
+          <img src="/icon.png" alt="Elevate IT Icon" style={{ height: '60px', width: 'auto' }} />
+        </div>
       </div>
 
       <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
