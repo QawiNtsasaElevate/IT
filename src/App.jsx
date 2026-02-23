@@ -34,7 +34,7 @@ export default function App() {
       }
     };
     getUser();
-  }, [];
+  }, []);
 
   useEffect(() => {
     const getAssets = async () => {
