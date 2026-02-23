@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400;700&family=Inter+Tight:wght@300;400;500;600;700&display=swap');
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter Tight', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,6 +28,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Inter Tight', sans-serif;
 }
 
 #root {
@@ -36,8 +37,20 @@ body {
 }
 
 h1 {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 700;
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h2 {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 700;
+}
+
+h3 {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 700;
 }
 
 button {
@@ -46,7 +59,7 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
+  font-family: 'Inter Tight', sans-serif;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;

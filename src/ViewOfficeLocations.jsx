@@ -37,7 +37,7 @@ export default function ViewOfficeLocations() {
   return (
     <div style={{ 
       padding: '40px 20px', 
-      fontFamily: 'sans-serif',
+      fontFamily: 'Inter Tight, sans-serif',
       width: '100%'
     }}>
       <Link to="/" style={{ textDecoration: 'none', color: '#FF5722', marginBottom: '20px', display: 'inline-block', fontSize: '16px' }}>← Back to Home</Link>

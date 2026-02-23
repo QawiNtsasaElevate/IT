@@ -122,7 +122,7 @@ export default function App() {
   return (
     <div style={{ 
       padding: '40px 20px', 
-      fontFamily: 'sans-serif',
+      fontFamily: 'Inter Tight, sans-serif',
       width: '100%',
       maxWidth: '1400px',
       margin: '0 auto'
