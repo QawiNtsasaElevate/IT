@@ -8,15 +8,15 @@
   },
   "routes": [
     {
-      "route": "/*",
-      "allowedRoles": ["authenticated"]
-    },
-    {
       "route": "/.auth/login/*",
       "allowedRoles": ["unauthenticated"]
     },
     {
       "route": "/.auth/logout",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/*",
       "allowedRoles": ["authenticated"]
     }
   ],
