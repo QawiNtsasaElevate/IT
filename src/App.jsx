@@ -12,6 +12,7 @@ export default function App() {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch user info from Azure Static Web Apps
   useEffect(() => {
@@ -21,13 +22,19 @@ export default function App() {
         const data = await response.json();
         if (data.clientPrincipal) {
           setUser(data.clientPrincipal);
+        } else {
+          // Not authenticated - redirect to login
+          window.location.href = '/.auth/login/aad';
         }
       } catch (err) {
-        console.log('Not authenticated or auth endpoint unavailable');
+        console.log('Auth check failed');
+        window.location.href = '/.auth/login/aad';
+      } finally {
+        setLoading(false);
       }
     };
     getUser();
-  }, []);
+  }, [];
 
   useEffect(() => {
     const getAssets = async () => {
@@ -135,6 +142,28 @@ export default function App() {
   };
 
   const sortedAndFilteredAssets = getSortedAssets();
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        fontFamily: 'Inter Tight, sans-serif'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '18px', color: '#666', marginBottom: '10px' }}>Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no user, don't show anything (will redirect above)
+  if (!user) {
+    return null;
+  }
 
   return (
     <div style={{ 

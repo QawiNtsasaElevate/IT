@@ -43,6 +43,8 @@ export default function Analytics() {
   const [selectedAssets, setSelectedAssets] = useState(new Set());
   const [assetSearchQuery, setAssetSearchQuery] = useState('');
   const [selectionViewMode, setSelectionViewMode] = useState('list'); // 'list', 'byModel', 'byLocation', 'byType', 'byStatus'
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState({
     byLocation: [],
     byType: [],
@@ -56,6 +58,27 @@ export default function Analytics() {
   // Refs for chart containers
   const chartsContainerRef = useRef(null);
   const chartRefs = useRef({});
+
+  // Fetch user info from Azure Static Web Apps
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch('/.auth/me');
+        const data = await response.json();
+        if (data.clientPrincipal) {
+          setUser(data.clientPrincipal);
+        } else {
+          window.location.href = '/.auth/login/aad';
+        }
+      } catch (err) {
+        console.log('Auth check failed');
+        window.location.href = '/.auth/login/aad';
+      } finally {
+        setLoading(false);
+      }
+    };
+    getUser();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -574,6 +597,28 @@ export default function Analytics() {
       console.error('Error exporting charts:', error);
     }
   };
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        fontFamily: 'Inter Tight, sans-serif'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '18px', color: '#666', marginBottom: '10px' }}>Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no user, don't show anything (will redirect above)
+  if (!user) {
+    return null;
+  }
 
   return (
     <div style={{ padding: '40px 20px', fontFamily: 'Inter Tight, sans-serif', width: '100%' }}>
